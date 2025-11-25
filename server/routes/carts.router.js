@@ -1,0 +1,33 @@
+import { Router } from 'express';
+import cartService from '../services/Cartservice.js';
+
+const router = Router();
+
+router.post('/', async (req, res) => {
+    try {
+        const newCart = await cartService.createCart();
+        res.status(201).json(newCart);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.get('/:cid', async (req, res) => {
+    try {
+        const cart = await cartService.getCartById(parseInt(req.params.cid));
+        res.json(cart.products);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+});
+
+router.post('/:cid/product/:pid', async (req, res) => {
+    try {
+        const cart = await cartService.addProductToCart(parseInt(req.params.cid), parseInt(req.params.pid));
+        res.json(cart);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+export default router;

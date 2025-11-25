@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+
+# Archivos de entorno
+.env
+.env.local
+
+# Archivos de registro
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de datos
+server/data/*.json
+!server/data/.gitkeep
