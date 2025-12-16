@@ -90,4 +90,4 @@ class ProductManager {
     }
 }
 
-export default new ProductManager();
+export default ProductManager;
