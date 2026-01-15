@@ -1,0 +1,74 @@
+{{#if payload}}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            {{#if payload.thumbnails}}
+            <img src="{{payload.thumbnails.[0]}}" alt="{{payload.title}}" class="img-fluid">
+            {{else}}
+            <div class="bg-light p-5 text-center">
+                <p class="text-muted">Imagen no disponible</p>
+            </div>
+            {{/if}}
+        </div>
+        <div class="col-md-8">
+            <h1>{{payload.title}}</h1>
+            
+            <div class="mt-4">
+                <h4>Información del Producto</h4>
+                <table class="table">
+                    <tr>
+                        <th>Categoría:</th>
+                        <td>{{payload.category}}</td>
+                    </tr>
+                    <tr>
+                        <th>Precio:</th>
+                        <td class="h5"><strong class="text-success">${{payload.price}}</strong></td>
+                    </tr>
+                    <tr>
+                        <th>Stock:</th>
+                        <td>{{payload.stock}} unidades</td>
+                    </tr>
+                    <tr>
+                        <th>Código:</th>
+                        <td><code>{{payload.code}}</code></td>
+                    </tr>
+                    <tr>
+                        <th>Estado:</th>
+                        <td>
+                            {{#if payload.status}}
+                            <span class="badge bg-success">Disponible</span>
+                            {{else}}
+                            <span class="badge bg-danger">No disponible</span>
+                            {{/if}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <h4>Descripción</h4>
+                <p>{{payload.description}}</p>
+            </div>
+
+            {{#if payload.status}}
+            <div class="mt-4">
+                <button class="btn btn-primary btn-lg add-to-cart" data-product-id="{{payload._id}}" data-product-title="{{payload.title}}">
+                    Agregar al Carrito
+                </button>
+                <a href="/products" class="btn btn-secondary btn-lg">Volver a Productos</a>
+            </div>
+            {{else}}
+            <div class="alert alert-warning mt-4">
+                Este producto no está disponible por el momento
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+{{else}}
+<div class="alert alert-danger mt-5">
+    Producto no encontrado
+</div>
+<a href="/products" class="btn btn-secondary">Volver a Productos</a>
+{{/if}}

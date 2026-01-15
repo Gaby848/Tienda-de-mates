@@ -1,14 +1,14 @@
-// Importar utilidades de notificación
+
 import { showNotification, showLoading } from './notifications.js';
 
-// Conectar al servidor de Socket.io
+
 const socket = io();
 
-// Referencias a elementos del DOM
+
 const addProductForm = document.getElementById('addProductForm');
 const realtimeProductsList = document.getElementById('realtimeProductsList');
 
-// Validación de formulario
+
 function validateProductForm(formData) {
     const errors = [];
     
@@ -27,19 +27,19 @@ function validateProductForm(formData) {
     return errors;
 }
 
-// Manejar el envío del formulario
+
 if (addProductForm) {
     addProductForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Mostrar indicador de carga
+        
         showLoading(true);
         
         try {
-            // Obtener los datos del formulario
+            
             const formData = new FormData(addProductForm);
             
-            // Validar el formulario
+            
             const errors = validateProductForm(formData);
             
             if (errors.length > 0) {
@@ -59,13 +59,13 @@ if (addProductForm) {
                 thumbnails: []
             };
 
-            // Emitir evento para agregar producto
+            
             socket.emit('newProduct', product);
             
-            // Mostrar notificación de éxito
+            
             showNotification('Producto agregado correctamente', 'success');
             
-            // Limpiar el formulario
+            
             addProductForm.reset();
         } catch (error) {
             console.error('Error al procesar el formulario:', error);
@@ -76,13 +76,13 @@ if (addProductForm) {
     });
 }
 
-// Manejar la eliminación de productos
+
 document.addEventListener('click', async (e) => {
     if (e.target.classList.contains('delete-product')) {
         const productId = e.target.getAttribute('data-id');
         const productTitle = e.target.closest('.card').querySelector('.card-title').textContent;
         
-        // Usar SweetAlert2 para confirmación más amigable
+        
         const { isConfirmed } = await Swal.fire({
             title: '¿Estás seguro?',
             text: `¿Deseas eliminar el producto "${productTitle}"?`,
@@ -107,9 +107,9 @@ document.addEventListener('click', async (e) => {
     }
 });
 
-// Escuchar actualizaciones de productos
+
 socket.on('productAdded', (product) => {
-    // Actualizar la lista en tiempo real
+    
     if (realtimeProductsList) {
         const productCard = `
             <div class="col-md-4 mb-4 product-card" data-id="${product.id}">
@@ -129,14 +129,14 @@ socket.on('productAdded', (product) => {
 });
 
 socket.on('productDeleted', (productId) => {
-    // Eliminar el producto de la vista
+    
     const productElement = document.querySelector(`.product-card[data-id="${productId}"]`);
     if (productElement) {
         productElement.remove();
     }
 });
 
-// Función para formatear el precio
+
 function formatPrice(price) {
     return new Intl.NumberFormat('es-AR', {
         style: 'currency',
@@ -144,7 +144,7 @@ function formatPrice(price) {
     }).format(price);
 }
 
-// Cargar productos iniciales
+
 window.addEventListener('DOMContentLoaded', async () => {
     showLoading(true);
     
@@ -157,7 +157,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         
         const products = await response.json();
         
-        // Actualizar la lista de productos en la página de inicio
+        
         const productsList = document.getElementById('productsList');
         if (productsList) {
             if (products.length === 0) {
@@ -190,7 +190,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Manejar errores de conexión WebSocket
+
 socket.on('connect_error', () => {
     showNotification('Error de conexión con el servidor. Recargando...', 'danger');
     setTimeout(() => {
@@ -198,7 +198,7 @@ socket.on('connect_error', () => {
     }, 3000);
 });
 
-// Manejar errores generales de la aplicación
+
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Error no manejado:', event.reason);
     showNotification('Ocurrió un error inesperado', 'danger');

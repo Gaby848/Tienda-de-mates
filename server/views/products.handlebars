@@ -1,0 +1,96 @@
+{{#if payload.length}}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1>Productos - Página {{page}} de {{totalPages}}</h1>
+        </div>
+        <div class="col-md-6 text-end">
+            <button id="viewCartBtn" class="btn btn-success me-2">
+                <i class="bi bi-cart"></i> Ver Carrito
+            </button>
+            <form method="GET" action="/products" class="form-inline float-end d-inline">
+                <div class="mb-3 me-2">
+                    <input type="text" name="query" class="form-control me-2" placeholder="Buscar por categoría...">
+                </div>
+                <div class="mb-3 me-2">
+                    <select name="sort" class="form-control me-2">
+                        <option value="">Sin ordenamiento</option>
+                        <option value="asc">Precio: Menor a Mayor</option>
+                        <option value="desc">Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-3">Filtrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Grid de Productos -->
+    <div class="row">
+        {{#each payload}}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {{#if this.thumbnails.[0]}}
+                <img src="{{this.thumbnails.[0]}}" class="card-img-top" alt="{{this.title}}" style="height: 250px; object-fit: cover;">
+                {{else}}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <span class="text-muted">Sin imagen</span>
+                </div>
+                {{/if}}
+                <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">
+                        <strong>Categoría:</strong> {{this.category}}<br>
+                        <strong>Precio:</strong> ${{this.price}}<br>
+                        <strong>Stock:</strong> {{this.stock}}<br>
+                        <strong>Estado:</strong> {{#if this.status}}<span class="badge bg-success">Disponible</span>{{else}}<span class="badge bg-danger">No disponible</span>{{/if}}
+                    </p>
+                    <p class="card-text text-muted small">{{this.description}}</p>
+                </div>
+                <div class="card-footer bg-white border-top">
+                    <a href="/products/{{this._id}}" class="btn btn-info btn-sm">Ver Detalles</a>
+                    <button class="btn btn-primary btn-sm add-to-cart" data-product-id="{{this._id}}" data-product-title="{{this.title}}">
+                        Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    <!-- Paginación -->
+    <nav aria-label="Paginación" class="mt-5">
+        <ul class="pagination justify-content-center">
+            {{#if hasPrevPage}}
+            <li class="page-item">
+                <a class="page-link" href="{{prevLink}}">Anterior</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+                <span class="page-link">Anterior</span>
+            </li>
+            {{/if}}
+
+            {{#each (range 1 (math totalPages 1 'add'))}}
+            <li class="page-item {{#if (eq this ../page)}}active{{/if}}">
+                <a class="page-link" href="/products?page={{this}}&limit=10">{{this}}</a>
+            </li>
+            {{/each}}
+
+            {{#if hasNextPage}}
+            <li class="page-item">
+                <a class="page-link" href="{{nextLink}}">Siguiente</a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+                <span class="page-link">Siguiente</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
+</div>
+
+{{else}}
+<div class="alert alert-info mt-5">
+    No hay productos disponibles
+</div>
+{{/if}}

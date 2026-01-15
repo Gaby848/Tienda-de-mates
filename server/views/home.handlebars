@@ -1,16 +1,81 @@
-<!-- server/views/home.handlebars -->
-<h1>Lista de Productos</h1>
-<div class="row" id="productsList">
-    {{#each products}}
-        <div class="col-md-4 mb-4">
-            <div class="card">
+<div class="jumbotron bg-light p-5 rounded-lg m-5">
+    <div class="container">
+        <h1 class="display-4">🧉 Bienvenido a la Tienda de Mates</h1>
+        <p class="lead">Tu tienda online especializada en mates, bombillas, termos y accesorios de calidad</p>
+        <hr class="my-4">
+        <p>Encuentra todo lo que necesitas para disfrutar del auténtico mate argentino</p>
+        <a class="btn btn-primary btn-lg" href="/products" role="button">Ver Productos</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">{{this.title}}</h5>
-                    <p class="card-text">{{this.description}}</p>
-                    <p class="card-text">Precio: ${{this.price}}</p>
-                    <p class="card-text">Stock: {{this.stock}}</p>
+                    <h5 class="card-title">📦 Envíos Rápidos</h5>
+                    <p class="card-text">Entrega a toda la Argentina en 2-3 días hábiles</p>
                 </div>
             </div>
         </div>
-    {{/each}}
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">✅ Productos de Calidad</h5>
+                    <p class="card-text">Seleccionamos los mejores mates y accesorios</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">💳 Múltiples Formas de Pago</h5>
+                    <p class="card-text">Tarjetas, transferencia y efectivo</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="bg-primary text-white py-5 my-5">
+    <div class="container text-center">
+        <h2>Últimas Novedades</h2>
+        <p>Consulta nuestro catálogo actualizado con los últimos productos</p>
+        <a class="btn btn-light btn-lg" href="/products" role="button">Explorar Catálogo</a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="mb-4">¿Cómo Usar la Tienda?</h2>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h5>👥 API REST</h5>
+            <p>Accede a nuestros endpoints REST para integrar los productos en tu aplicación:</p>
+            <ul>
+                <li><code>GET /api/products</code> - Obtener productos con paginación</li>
+                <li><code>POST /api/carts</code> - Crear un carrito</li>
+                <li><code>POST /api/carts/:cid/products/:pid</code> - Agregar productos</li>
+            </ul>
+            <a href="https://github.com/Gaby848/Tienda-de-mates" target="_blank" class="btn btn-sm btn-outline-primary">Ver Documentación</a>
+        </div>
+        <div class="col-md-6 mb-4">
+            <h5>🛍️ Compra Online</h5>
+            <p>Disfruta de nuestra interfaz intuitiva para una experiencia de compra sin complicaciones:</p>
+            <ul>
+                <li>Catálogo con filtros y búsqueda</li>
+                <li>Paginación automática</li>
+                <li>Carrito de compras dinámico</li>
+            </ul>
+            <a href="/products" class="btn btn-sm btn-primary">Comenzar a Comprar</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+</style>

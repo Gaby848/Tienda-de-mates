@@ -1,4 +1,4 @@
-// Funciones para mostrar notificaciones
+
 export function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
@@ -13,13 +13,13 @@ export function showNotification(message, type = 'info') {
     
     document.body.appendChild(notification);
     
-    // Eliminar la notificación después de 5 segundos
+    
     setTimeout(() => {
         notification.remove();
     }, 5000);
 }
 
-// Función para mostrar indicador de carga
+
 export function showLoading(show = true) {
     let loadingElement = document.getElementById('loadingIndicator');
     
