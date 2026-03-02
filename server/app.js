@@ -3,9 +3,12 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { engine } from 'express-handlebars';
+import passport from 'passport';
+import './config/passport.config.js';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
+import sessionsRouter from './routes/sessions.router.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -88,6 +91,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, 'public')));
 
+// Inicializar Passport
+app.use(passport.initialize());
+
 
 app.use((req, res, next) => {
     res.locals.currentYear = new Date().getFullYear();
@@ -105,6 +111,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/api/sessions', sessionsRouter);
 
 
 app.use('/', viewsRouter);

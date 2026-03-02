@@ -25,5 +25,11 @@ export const config = {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }
+    },
+    
+    
+    JWT: {
+        SECRET: process.env.JWT_SECRET || 'secret_key_jwt',
+        COOKIE_EXPIRES: process.env.JWT_COOKIE_EXPIRES || '24h'
     }
 };
