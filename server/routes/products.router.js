@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import productService from '../services/ProductService.js';
+import productRepository from '../repositories/ProductRepository.js';
+import ProductDTO from '../dto/ProductDTO.js';
+import { productAuthMiddleware } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
@@ -31,10 +33,9 @@ router.get('/', async (req, res) => {
     try {
         const { limit, page, query, sort } = req.query;
         
-        const result = await productService.getProducts({
+        const result = await productRepository.getProducts(query, {
             limit,
             page,
-            query,
             sort
         });
 
@@ -53,7 +54,7 @@ router.get('/', async (req, res) => {
  */
 router.get('/:pid', async (req, res) => {
     try {
-        const product = await productService.getProductById(req.params.pid);
+        const product = await productRepository.getProductById(req.params.pid);
         res.json({
             status: 'success',
             payload: product
@@ -82,9 +83,9 @@ router.get('/:pid', async (req, res) => {
  *   status: boolean
  * }
  */
-router.post('/', async (req, res) => {
+router.post('/', ...productAuthMiddleware.create, async (req, res) => {
     try {
-        const newProduct = await productService.addProduct(req.body);
+        const newProduct = await productRepository.createProduct(req.body);
         res.status(201).json({
             status: 'success',
             payload: newProduct
@@ -112,9 +113,9 @@ router.post('/', async (req, res) => {
  *   status?: boolean
  * }
  */
-router.put('/:pid', async (req, res) => {
+router.put('/:pid', ...productAuthMiddleware.update, async (req, res) => {
     try {
-        const updatedProduct = await productService.updateProduct(req.params.pid, req.body);
+        const updatedProduct = await productRepository.updateProduct(req.params.pid, req.body);
         res.json({
             status: 'success',
             payload: updatedProduct
@@ -131,9 +132,9 @@ router.put('/:pid', async (req, res) => {
  * DELETE /api/products/:pid
  * Elimina un producto
  */
-router.delete('/:pid', async (req, res) => {
+router.delete('/:pid', ...productAuthMiddleware.delete, async (req, res) => {
     try {
-        const deletedProduct = await productService.deleteProduct(req.params.pid);
+        const deletedProduct = await productRepository.deleteProduct(req.params.pid);
         res.json({
             status: 'success',
             payload: deletedProduct

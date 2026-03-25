@@ -9,6 +9,7 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
+import ticketsRouter from './routes/tickets.router.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -112,6 +113,7 @@ app.get('/', (req, res) => {
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/tickets', ticketsRouter);
 
 
 app.use('/', viewsRouter);
